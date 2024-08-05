@@ -1,17 +1,9 @@
 name: update_stock_price_data
 
 on:
-  # push:
-  #   # paths:
-  #   #   - 'docs/**'
-  #   branches:
-  #     - main
   schedule:
     - cron: '0 0 * * *'
   workflow_dispatch:  # Allow manual trigger
-
-# permissions:
-#   contents: write
 
 jobs:
   update-data:
