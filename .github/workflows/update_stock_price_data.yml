@@ -8,10 +8,6 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
-
-    env:
-      API_KEY: ${{ secrets.ALPACA_API_KEY }}
-      SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
       
     steps:
       - uses: actions/checkout@v4
@@ -31,6 +27,9 @@ jobs:
 
       - name: Generate new data
         run: python update_stock_price_data.py
+        env:
+          API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
 
       - name: Commit and push changes
         run: |
