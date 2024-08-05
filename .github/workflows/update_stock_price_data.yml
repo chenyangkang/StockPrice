@@ -14,7 +14,7 @@ on:
 #   contents: write
 
 jobs:
-  update-stock-price-data:
+  update-data:
     runs-on: ubuntu-latest
     env:
       API_KEY: ${{ secrets.ALPACA_API_KEY }}
