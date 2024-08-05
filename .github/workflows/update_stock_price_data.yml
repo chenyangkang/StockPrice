@@ -35,7 +35,7 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions - update data"
           git config --global user.email "action@github.com"
-          git add historical_prices/*.csv
+          git add stock_historical_prices/*.csv
           git commit -m 'Update historical stock data'
           git push
         env:
