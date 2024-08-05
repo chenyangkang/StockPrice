@@ -23,13 +23,13 @@ for stock in tqdm(stock_list):
         "APCA-API-SECRET-KEY": ALPACA_SECRET_KEY
     }
     
-    print(headers)
+    # print(headers)
 
     response = requests.get(url, headers=headers)
     
-    print(response)
+    # print(response)
     
-    print(response.text)
+    # print(response.text)
 
     import json
     response_dict = json.loads(response.text)
