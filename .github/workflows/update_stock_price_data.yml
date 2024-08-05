@@ -1,0 +1,50 @@
+name: update_stock_price_data
+
+on:
+  # push:
+  #   # paths:
+  #   #   - 'docs/**'
+  #   branches:
+  #     - main
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+# permissions:
+#   contents: write
+
+jobs:
+  update_stock_price_data:
+    runs-on: ubuntu-latest
+    env:
+      API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - uses: actions/cache@v3
+        with:
+          key: ${{ github.ref }}
+          path: .cache
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install yfinance pandas tqdm
+
+    - name: Generate new data
+      run: python update_stock_price_data.py
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name "GitHub Actions - update data"
+        git config --global user.email "action@github.com"
+        git add historical_prices/*.csv
+        git commit -m 'Update historical stock data'
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.my_GITHUB_TOKEN }}
