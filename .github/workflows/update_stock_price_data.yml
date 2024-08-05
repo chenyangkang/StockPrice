@@ -9,6 +9,9 @@ jobs:
   update:
     runs-on: ubuntu-latest
 
+    env:
+      API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
       
     steps:
       - uses: actions/checkout@v4
@@ -26,15 +29,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install yfinance pandas tqdm
 
-    - name: Generate new data
-      run: python update_stock_price_data.py
+      - name: Generate new data
+        run: python update_stock_price_data.py
 
-    - name: Commit and push changes
-      run: |
-        git config --global user.name "GitHub Actions - update data"
-        git config --global user.email "action@github.com"
-        git add historical_prices/*.csv
-        git commit -m 'Update historical stock data'
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.my_GITHUB_TOKEN }}
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Actions - update data"
+          git config --global user.email "action@github.com"
+          git add historical_prices/*.csv
+          git commit -m 'Update historical stock data'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.my_GITHUB_TOKEN }}
