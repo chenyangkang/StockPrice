@@ -34,6 +34,10 @@ for stock in tqdm(stock_list):
     import json
     response_dict = json.loads(response.text)
     
-    data = pd.DataFrame(response_dict['bars'][stock])
-    data.to_csv(f'stock_historical_prices/{stock}.csv', index=False)
+    try:
+        data = pd.DataFrame(response_dict['bars'][stock])
+        data.to_csv(f'stock_historical_prices/{stock}.csv', index=False)
+        
+    except Exception as e:
+        print(e)
 
