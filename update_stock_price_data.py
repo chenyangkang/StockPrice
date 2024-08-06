@@ -6,10 +6,11 @@ import os
 # import my_secrets
 from tqdm.auto import tqdm
 import requests
+import pytz
 
 stock_list = list(pd.read_csv('nasdaq_stock_info/stock_info.csv')['code'])
 start_date = '2015-01-01'
-end_date = str((datetime.datetime.now() - pd.to_timedelta('1d')).date())
+end_date = str((datetime.datetime.now(tz=pytz.timezone('America/New_York')) - pd.to_timedelta('1d')).date())
 
 ALPACA_API_KEY = os.environ.get("ALPACA_API_KEY", "<unknown")
 ALPACA_SECRET_KEY = os.environ.get("ALPACA_SECRET_KEY", "<unknown")
