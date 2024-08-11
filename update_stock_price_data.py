@@ -7,6 +7,8 @@ import os
 from tqdm.auto import tqdm
 import requests
 import pytz
+import time
+
 
 stock_list = list(pd.read_csv('nasdaq_stock_info/stock_info.csv')['code'])
 start_date = '2015-01-01'
@@ -23,22 +25,30 @@ for stock in tqdm(stock_list):
         "APCA-API-KEY-ID": ALPACA_API_KEY,
         "APCA-API-SECRET-KEY": ALPACA_SECRET_KEY
     }
-    
-    # print(headers)
 
     response = requests.get(url, headers=headers)
-    
-    # print(response)
-    
-    # print(response.text)
 
     import json
     response_dict = json.loads(response.text)
     
-    try:
-        data = pd.DataFrame(response_dict['bars'][stock])
-        data.to_csv(f'stock_historical_prices/{stock}.csv', index=False)
-        
-    except Exception as e:
-        print(e)
+    again = True
+    retry_count = 0
+    
+    while again:
+        try:
+            data = pd.DataFrame(response_dict['bars'][stock])
+            data.to_csv(f'stock_historical_prices/{stock}.csv', index=False)
+            again = False
+            retry_count = 0
+            
+        except Exception as e:
+            
+            if retry_count >=5:
+                again = False
+            
+            again = True
+            retry_count += 1
+            time.sleep(60)
+
+            print(e)
 
