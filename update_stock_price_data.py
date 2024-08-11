@@ -32,18 +32,23 @@ for stock in tqdm(stock_list):
     response_dict = json.loads(response.text)
     
     again = True
+    retry_count = 0
     
     while again:
         try:
             data = pd.DataFrame(response_dict['bars'][stock])
             data.to_csv(f'stock_historical_prices/{stock}.csv', index=False)
             again = False
+            retry_count = 0
             
         except Exception as e:
-            if e == 'bars':
-                again = True
-                time.sleep(60)
-            else:
+            
+            if retry_count >=5:
                 again = False
+            
+            again = True
+            retry_count += 1
+            time.sleep(60)
+
             print(e)
 
