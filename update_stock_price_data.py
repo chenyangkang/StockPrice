@@ -48,7 +48,7 @@ for stock in tqdm(stock_list):
             
             again = True
             retry_count += 1
-            time.sleep(60)
+            time.sleep(60*5)
 
             print(e)
 
