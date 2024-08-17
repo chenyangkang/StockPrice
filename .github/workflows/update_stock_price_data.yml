@@ -7,6 +7,10 @@ on:
 
 jobs:
   update:
+  
+    strategy:
+      fail-fast: false
+
     runs-on: ubuntu-latest
       
     steps:
