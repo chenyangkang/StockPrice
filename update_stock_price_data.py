@@ -40,6 +40,7 @@ for stock in tqdm(stock_list):
             data.to_csv(f'stock_historical_prices/{stock}.csv', index=False)
             again = False
             retry_count = 0
+            time.sleep(1)
             
         except Exception as e:
             
