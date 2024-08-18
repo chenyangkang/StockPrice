@@ -2,12 +2,12 @@ name: update_stock_price_data
 
 on:
   schedule:
-    - cron: '30 4 * * *'
+    - cron: '30 6 * * *'
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
   update:
-  
+
     strategy:
       fail-fast: false
 
